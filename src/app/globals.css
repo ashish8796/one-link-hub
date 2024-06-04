@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("./reset.css");
+
 .flex {
   display: flex;
 }
@@ -10,4 +12,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.flex-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
