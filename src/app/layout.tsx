@@ -5,6 +5,7 @@ import { CssBaseline } from "@mui/material";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import theme from "../theme";
+import StoreProvider from "./store/StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,13 +19,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log("Log in main layout.");
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
+            <StoreProvider>
+              <CssBaseline />
+              {children}
+            </StoreProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Button,
@@ -11,8 +13,41 @@ import { ArrowBackIosNew } from "@mui/icons-material";
 import IconBox from "../components/IconBox";
 import MainContainer from "../components/MainContainer";
 import Logo from "../components/Logo";
+import { useMiniStore } from "../hooks/storeSelector";
+import { Form, RegisterOptions, SubmitHandler, useForm } from "react-hook-form";
+
+type IOneLinkInput = {
+  oneLink: string;
+};
 
 function CreateOneLink() {
+  const { state, dispatch } = useMiniStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IOneLinkInput>();
+
+  const onSubmit: SubmitHandler<IOneLinkInput> = (data) => {
+    console.log({ data });
+  };
+
+  console.log("Log in One link page.");
+
+  const oneLinkOptions: RegisterOptions = {
+    required: "One link is required",
+
+    minLength: {
+      value: 3,
+      message: "One link should be at least 3 characters",
+    },
+
+    maxLength: {
+      value: 20,
+      message: "One link should be at most 20 characters",
+    },
+  };
+
   return (
     <Layout>
       <MainContainer>
@@ -32,17 +67,25 @@ function CreateOneLink() {
             Your one link is your unique identifier for sharing your Circle
             experiences.
           </Typography>
-
           <Box sx={{ width: "50%" }}>
-            <TextField placeholder="your one-link" fullWidth />
-          </Box>
-        </Box>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <TextField
+                placeholder="your one-link"
+                fullWidth
+                {...register("oneLink", oneLinkOptions)}
+              />
 
-        <Box className="flex-center">
-          <Box sx={styles.claimButtonBox} className="flex-center">
-            <Button variant={"contained"} size="large" fullWidth>
-              Claim
-            </Button>
+              <Box sx={styles.claimButtonBox}>
+                <Button
+                  variant={"contained"}
+                  size="large"
+                  fullWidth
+                  type="submit"
+                >
+                  Claim
+                </Button>
+              </Box>
+            </form>
           </Box>
         </Box>
       </MainContainer>
@@ -62,8 +105,8 @@ const styles: ICreateOneLinkStyles = {
   },
 
   claimButtonBox: {
-    width: "30%",
-    mt: "8rem"
+    width: "100%",
+    mt: "8rem",
   },
 };
 
